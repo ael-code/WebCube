@@ -35,21 +35,6 @@ class WebCube():
         finally:
             self.logout()
 
-    def get_wan_data(self):
-        data = "<request><wan></wan></request>"
-        response = urllib2.urlopen(self.url + '/api/status', data)
-        response = ET.fromstring(response.read())
-        status = dict()
-        for elem in response.iter():
-            status[elem.tag] = elem.text
-        return status
-
-    def get_wan_status(self):
-        return int(self.get_wan_data()["wan_status"])
-
-    def get_cellular_duration(self):
-        return int(self.get_wan_data()["cellular_duration"])
-
     def login(self):
         if not self.username:
             raise Exception('Could not login: username not set')
@@ -101,3 +86,39 @@ class WebCube():
         header = {"Cookie": self.sessionID}
         req = urllib2.Request(self.url + '/apply.cgi', "CMD=reboot", header)
         response = urllib2.urlopen(req)
+
+    def get_wan_data(self):
+        data = "<request><wan></wan></request>"
+        response = urllib2.urlopen(self.url + '/api/status', data)
+        response = ET.fromstring(response.read())
+        status = dict()
+        for elem in response:
+            status[elem.tag] = elem.text
+        return status
+
+    def get_wan_status(self):
+        return int(self.get_wan_data()["wan_status"])
+
+    def get_wan_demand(self):
+	return int(self.get_wan_data()["wan_demand"])
+
+    def get_wan_ip_address(self):
+	return self.get_wan_data()["wan_ipaddr"]
+
+    def get_cellular_duration(self):
+        return int(self.get_wan_data()["cellular_duration"])
+
+    def get_cellular_tx_rate(self):
+        return int(self.get_wan_data()["cellular_tx_rate"])
+
+    def get_cellular_rx_rate(self):
+        return int(self.get_wan_data()["cellular_rx_rate"])
+
+    def get_cellular_sim_state(self):
+        return int(self.get_wan_data()['cellular_sim_state'])
+
+    def get_cellular_sim_lock(self):
+        return int(self.get_wan_data()['cellular_sim_lock'])
+
+    def get_cellular_pin_state(self):
+        return int(self.get_wan_data()['cellular_pin_state'])
