@@ -29,11 +29,17 @@ class WebCube():
         finally:
             self.logout()
 
-    def get_cellular_duration(self):
+    def get_wan_data(self):
         data = "<request><wan></wan></request>"
         response = urllib2.urlopen(self.url + '/api/status', data)
-        duration = int(ET.fromstring(response.read()).find("cellular_duration").text)
-        return duration
+        response = ET.fromstring(response.read())
+        status = dict()
+        for elem in response.iter():
+            status[elem.tag] = elem.text
+        return status
+
+    def get_cellular_duration(self):
+        return int(self.get_wan_data()["cellular_duration"])
 
     def login(self):
         if not self.username:

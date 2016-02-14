@@ -10,7 +10,8 @@ opener = urllib2.build_opener(handler)
 urllib2.install_opener(opener)
 
 wc = WebCube(host, username, password)
+print(wc.get_wan_data())
 print(wc.get_cellular_duration())
 
-with wc.session():
-    wc.connect()
+#with wc.session():
+#    wc.connect()
