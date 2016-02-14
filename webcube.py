@@ -2,14 +2,6 @@ import urllib2
 import urllib
 import xml.etree.ElementTree as ET
 
-host="192.168.1.1"
-username="admin"
-password="admin"
-
-handler=urllib2.HTTPHandler(debuglevel=1)
-opener = urllib2.build_opener(handler)
-urllib2.install_opener(opener)
-
 
 class WebCube():
 
@@ -86,11 +78,3 @@ class WebCube():
         header = {"Cookie": self.sessionID}
         req = urllib2.Request(self.url + '/apply.cgi', "CMD=reboot", header)
         response = urllib2.urlopen(req)
-
-
-
-wc = WebCube(host, username, password)
-print(wc.get_cellular_duration())
-wc.login()
-wc.connect()
-wc.logout()
