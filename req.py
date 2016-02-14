@@ -10,6 +10,7 @@ handler=urllib2.HTTPHandler(debuglevel=1)
 opener = urllib2.build_opener(handler)
 urllib2.install_opener(opener)
 
+
 def get_cellular_duration():
     data = "<request><wan></wan></request>"
     response = urllib2.urlopen('http://{}/api/status'.format(host), data)
@@ -48,8 +49,19 @@ def logout(sessionID):
     if code != "OK":
         raise Exception("Error while logging out")
 
+def connect(sessionID):
+    data = "<request></request>"
+    header = {"Cookie": sessionID}
+    req = urllib2.Request('http://{}/api/generic/connect'.format(host), data, header)
+    response = urllib2.urlopen(req)
+    code = ET.fromstring(response.read()).text
+    if code != "OK":
+        raise Exception("Error while logging out")
+
+
 get_cellular_duration()
 sessionID = login(user, password)
+connect(sessionID)
 #reboot(sessionID)
 logout(sessionID)
 
