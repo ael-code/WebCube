@@ -3,6 +3,12 @@ import urllib
 import xml.etree.ElementTree as ET
 from contextlib import contextmanager
 
+# WAN status
+DISCONNECTED = 0
+CONNECTING = 1
+CONNECTED = 2
+
+
 class WebCube():
 
     def __init__(self, host, username=None, password=None):
@@ -37,6 +43,9 @@ class WebCube():
         for elem in response.iter():
             status[elem.tag] = elem.text
         return status
+
+    def get_wan_status(self):
+        return int(self.get_wan_data()["wan_status"])
 
     def get_cellular_duration(self):
         return int(self.get_wan_data()["cellular_duration"])
