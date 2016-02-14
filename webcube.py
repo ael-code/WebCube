@@ -122,3 +122,15 @@ class WebCube():
 
     def get_cellular_pin_state(self):
         return int(self.get_wan_data()['cellular_pin_state'])
+
+    def get_icon_data(self):
+        data = "<request><icon></icon></request>"
+        response = urllib2.urlopen(self.url + '/api/status', data)
+        response = ET.fromstring(response.read())
+        status = dict()
+        for elem in response:
+            status[elem.tag] = elem.text
+        return status
+
+    def get_wlan_clients_number(self):
+        return int(self.get_icon_data()['wfc'])
