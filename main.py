@@ -11,6 +11,6 @@ urllib2.install_opener(opener)
 
 wc = WebCube(host, username, password)
 print(wc.get_cellular_duration())
-wc.login()
-#wc.connect()
-wc.logout()
+
+with wc.session():
+    wc.connect()

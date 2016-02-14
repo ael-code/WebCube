@@ -1,7 +1,7 @@
 import urllib2
 import urllib
 import xml.etree.ElementTree as ET
-
+from contextlib import contextmanager
 
 class WebCube():
 
@@ -20,6 +20,14 @@ class WebCube():
         if not self._sessionID:
             raise Exception("You are not currently logged in")
         return self._sessionID
+
+    @contextmanager
+    def session(self):
+        self.login()
+        try:
+            yield self
+        finally:
+            self.logout()
 
     def get_cellular_duration(self):
         data = "<request><wan></wan></request>"
