@@ -1,0 +1,7 @@
+[Unit]
+Description="WebCube keepalive"
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/webcube-keepalive.conf
+ExecStart=/usr/bin/python2 /opt/webcube/keep_alive.py

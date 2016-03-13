@@ -1,0 +1,11 @@
+[Unit]
+Description="Timer for webcube keepalive"
+Requires=network.target
+After=network.target
+
+[Timer]
+OnActiveSec=0
+OnUnitInactiveSec=10min
+
+[Install]
+WantedBy=multi-user.target
